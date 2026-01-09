@@ -30,7 +30,7 @@
   <article class="reader-content">
     <h1 id="title"></h1>
     <p id="meta"></p>
-    <iframe id="docFrame" loading="lazy"></iframe>
+    <div id="content" class="sermon-content">กำลังโหลดเนื้อหา…</div>
   </article>
 
 </div>
@@ -45,7 +45,6 @@ const youtube = p.get("youtube") || "";
 
 document.getElementById("title").textContent = title;
 document.getElementById("meta").textContent = date + " • " + preacher;
-document.getElementById("docFrame").src = doc + "?embedded=true&v=" + Date.now();
 
 // OG TAG
 document.querySelector('meta[property="og:title"]').content = title;
@@ -59,24 +58,35 @@ if (youtube) {
   }
 }
 
-// FONT SCALE
-let fontScale = 1;
+// FETCH GOOGLE DOC CONTENT
+fetch(doc + "?embedded=true")
+  .then(res => res.text())
+  .then(html => {
+    const dom = new DOMParser().parseFromString(html, "text/html");
+    const body = dom.querySelector(".doc-content") || dom.body;
+    document.getElementById("content").innerHTML = body.innerHTML;
+  })
+  .catch(() => {
+    document.getElementById("content").textContent = "ไม่สามารถโหลดเนื้อหาได้";
+  });
+
+/* FONT SIZE */
+let fontSize = 1.05;
 function fontBigger() {
-  fontScale += 0.1;
-  docFrame.style.transform = `scale(${fontScale})`;
-  docFrame.style.transformOrigin = "top left";
+  fontSize += 0.1;
+  document.documentElement.style.fontSize = fontSize + "rem";
 }
 function fontSmaller() {
-  fontScale = Math.max(0.9, fontScale - 0.1);
-  docFrame.style.transform = `scale(${fontScale})`;
+  fontSize = Math.max(0.9, fontSize - 0.1);
+  document.documentElement.style.fontSize = fontSize + "rem";
 }
 
-// DARK MODE
+/* DARK MODE */
 function toggleDark() {
   document.body.classList.toggle("dark");
 }
 
-// SHARE
+/* SHARE */
 function shareLine() {
   const url = encodeURIComponent(window.location.href);
   window.open(`https://social-plugins.line.me/lineit/share?url=${url}`, "_blank");
@@ -93,7 +103,7 @@ function shareNative() {
   }
 }
 
-// PDF
+/* PDF */
 function downloadPDF() {
   window.print();
 }
