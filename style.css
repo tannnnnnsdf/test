@@ -1,0 +1,32 @@
+body {
+  font-family: system-ui, sans-serif;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  background: #f8f9fa;
+}
+
+.card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: none;
+  border-radius: 12px;
+  margin: 10px 0;
+}
+
+a {
+  display: inline-block;
+  margin-top: 8px;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #2563eb;
+  font-weight: 500;
+}

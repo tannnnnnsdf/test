@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>อ่านคำเทศนา</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1 id="title"></h1>
+<p id="meta"></p>
+
+<iframe id="docFrame" loading="lazy"></iframe>
+
+<script>
+const p = new URLSearchParams(location.search);
+document.getElementById("title").textContent = p.get("title");
+document.getElementById("meta").textContent = p.get("date") + " • " + p.get("preacher");
+document.getElementById("docFrame").src = p.get("doc") + "?embedded=true";
+</script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>คำเทศนาย้อนหลัง</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>คำเทศนาย้อนหลัง</h1>
+<div id="list"></div>
+
+<script src="data.js"></script>
+<script>
+loadSermons().then(data => {
+  const list = document.getElementById("list");
+  data.forEach(s => {
+    list.innerHTML += `
+      <div class="card">
+        <h3>${s.title}</h3>
+        <p>${s.date} • ${s.preacher}</p>
+        <a href="sermon.html?doc=${encodeURIComponent(s.doc)}&title=${encodeURIComponent(s.title)}&date=${encodeURIComponent(s.date)}&preacher=${encodeURIComponent(s.preacher)}">📖 อ่านคำเทศนา</a>
+        <a href="${s.youtube}" target="_blank">▶️ YouTube</a>
+      </div>`;
+  });
+});
+</script>
+
+</body>
+</html>
