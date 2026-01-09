@@ -17,4 +17,3 @@ async function loadSermons() {
     .filter(r => (r.show || "").toString().toLowerCase().trim() === "yes")
     .reverse();
 }
-export { loadSermons };
