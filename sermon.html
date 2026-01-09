@@ -22,16 +22,26 @@ meta.textContent=(p.get("date")||"")+" • "+(p.get("preacher")||"");
 
 const doc=p.get("doc");
 
-fetch(doc+"?embedded=true")
+fetch(doc + "?embedded=true")
 .then(r=>r.text())
 .then(html=>{
   const dom=new DOMParser().parseFromString(html,"text/html");
-  const body=dom.querySelector(".doc-content")||dom.body;
 
-  body.querySelectorAll("script,style").forEach(e=>e.remove());
-  body.querySelectorAll("*").forEach(el=>el.removeAttribute("style"));
+  const root =
+    dom.querySelector("#contents") ||
+    dom.querySelector(".doc-content") ||
+    dom.body;
 
-  document.getElementById("content").innerHTML=body.innerHTML;
+  root.querySelectorAll(
+    "script,style,nav,header,footer,form,input,button,textarea,select"
+  ).forEach(e=>e.remove());
+
+  root.querySelectorAll("[style]").forEach(e=>{
+    e.style.maxWidth="100%";
+    e.style.whiteSpace="normal";
+  });
+
+  document.getElementById("content").innerHTML = root.innerHTML;
 })
 .catch(()=>{
   document.getElementById("content").textContent="โหลดเนื้อหาไม่สำเร็จ";

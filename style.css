@@ -4,23 +4,7 @@ body{
   margin:0;
   padding:16px;
 }
-h1{text-align:center;margin-bottom:24px}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
-}
-.card{
-  background:#fff;
-  border-radius:14px;
-  padding:14px;
-  text-decoration:none;
-  color:#000;
-}
-.card img{
-  width:100%;
-  border-radius:10px;
-}
+
 .reader-content{
   max-width:720px;
   margin:auto;
@@ -28,16 +12,22 @@ h1{text-align:center;margin-bottom:24px}
   padding:28px;
   border-radius:18px;
 }
+
 .sermon-content{
   line-height:1.9;
   word-break:break-word;
   overflow-wrap:break-word;
 }
+
+.sermon-content *{
+  max-width:100%;
+  box-sizing:border-box;
+}
+
+.sermon-content p{
+  margin:0 0 1.2em;
+}
+
 .sermon-content h2{
   margin-top:2em;
-}
-.more{
-  display:block;
-  text-align:center;
-  margin-top:30px;
 }
