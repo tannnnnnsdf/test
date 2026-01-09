@@ -8,30 +8,49 @@
 <body>
 
 <h1>คำเทศนาล่าสุด</h1>
-<div id="latest"></div>
-
-<a href="sermons.html">📚 ดูคำเทศนาย้อนหลัง</a>
+<div id="latest" class="grid"></div>
+<a class="page-link" href="sermons.html">📚 ดูคำเทศนาย้อนหลังทั้งหมด</a>
 
 <script src="data.js"></script>
 <script>
+function getYouTubeID(url) {
+  if (!url) return "";
+  if (url.includes("youtu.be/"))
+    return url.split("youtu.be/")[1].split("?")[0];
+  if (url.includes("watch?v="))
+    return url.split("watch?v=")[1].split("&")[0];
+  if (url.includes("/live/"))
+    return url.split("/live/")[1].split("?")[0];
+  return "";
+}
+
+function renderPlayer(el, id) {
+  el.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1"
+    allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+}
+
 loadSermons().then(data => {
-  const container = document.getElementById("latest");
-  data.slice(0,3).forEach(s => {
-    container.innerHTML += `
-      <div class="card">
+  const box = document.getElementById("latest");
+  data.slice(0,3).forEach((s,i) => {
+    const id = getYouTubeID(s.youtube);
+    const thumb = id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : "";
+
+    box.innerHTML += `
+      <div class="card ${i===0?'featured':''}">
         <h3>${s.title}</h3>
         <p>${s.date} • ${s.preacher}</p>
-        <iframe src="${s.youtube.replace("watch?v=","embed/")}" allowfullscreen></iframe>
-        <a href="sermon.html?doc=${encodeURIComponent(s.doc)}&title=${encodeURIComponent(s.title)}&date=${encodeURIComponent(s.date)}&preacher=${encodeURIComponent(s.preacher)}">
+
+        ${id ? `
+        <div class="video-thumb" onclick="renderPlayer(this,'${id}')">
+          <img src="${thumb}" alt="">
+          <div class="play">▶</div>
+        </div>` : ""}
+
+        <a href="sermon.html?title=${encodeURIComponent(s.title)}&date=${encodeURIComponent(s.date)}&preacher=${encodeURIComponent(s.preacher)}&doc=${encodeURIComponent(s.doc)}">
           📖 อ่านคำเทศนา
         </a>
       </div>`;
   });
-});
-</script>
-<script>
-loadSermons().then(data => {
-  console.log("DATA =", data);
 });
 </script>
 
