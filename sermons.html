@@ -8,7 +8,7 @@
 <body>
 
 <h1>คำเทศนาย้อนหลัง</h1>
-<div id="list"></div>
+<div id="list" class="grid"></div>
 
 <script src="data.js"></script>
 <script>
@@ -19,8 +19,10 @@ loadSermons().then(data => {
       <div class="card">
         <h3>${s.title}</h3>
         <p>${s.date} • ${s.preacher}</p>
-        <a href="sermon.html?doc=${encodeURIComponent(s.doc)}&title=${encodeURIComponent(s.title)}&date=${encodeURIComponent(s.date)}&preacher=${encodeURIComponent(s.preacher)}">📖 อ่านคำเทศนา</a>
-        <a href="${s.youtube}" target="_blank">▶️ YouTube</a>
+        <a href="sermon.html?title=${encodeURIComponent(s.title)}&date=${encodeURIComponent(s.date)}&preacher=${encodeURIComponent(s.preacher)}&doc=${encodeURIComponent(s.doc)}">
+          📖 อ่านคำเทศนา
+        </a>
+        ${s.youtube ? `<a href="${s.youtube}" target="_blank">▶️ YouTube</a>` : ""}
       </div>`;
   });
 });
